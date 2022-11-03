@@ -27,3 +27,20 @@ p4 = np.array(data["P4 (kPa)"].tolist())
 fuelFLow = np.array(data["Fuel Flow  (L/hr)"].tolist())
 rpm = np.array(data["RPM"].tolist())
 thrust = np.array(data["Thrust (N)"].tolist())
+
+
+
+
+
+########## Question 2 ##########
+plt.plot(time, rpm)
+# plt.show()
+
+
+
+
+# ########## Question 3 ##########
+# def averageProperties(rpm1, rp1):
+#     for i in range(len(rpm)):
+#         if rpm[i] > 46000 and rpm[i] << 50000:
+#             averageRPM = 
