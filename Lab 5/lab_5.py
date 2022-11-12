@@ -13,7 +13,7 @@ from scipy.integrate import solve_ivp
 import math
 import csv
 
-data = pd.read_csv("lab5ABT.txt", sep='\t', lineterminator='\r')
+data = pd.read_csv("2022-10-30 Sample Data.txt", sep='\t', lineterminator='\r')
 
 time = np.array(data["Time (sec)"].tolist())
 t1 = np.array(data["T1 (C)"].tolist())
@@ -34,7 +34,7 @@ thrust = np.array(data["Thrust (N)"].tolist())
 
 ########## Question 2 ##########
 plt.plot(time, rpm)
-# plt.show()
+plt.show()
 
 
 
