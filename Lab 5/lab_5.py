@@ -13,6 +13,8 @@ from scipy.integrate import solve_ivp
 import math
 import csv
 
+import matplotlib.colors as mcolors
+
 data = pd.read_csv("2022-10-30 Sample Data.txt", sep='\t', lineterminator='\r')
 
 time = np.array(data["Time (sec)"].tolist())
@@ -31,16 +33,73 @@ thrust = np.array(data["Thrust (N)"].tolist())
 
 
 
-
 ########## Question 2 ##########
-plt.plot(time, rpm)
-plt.show()
+fourtyeightIndexes = []
+for i in range(0, 1000):
+    if rpm[i] > 47500 and rpm[i] < 48500:
+        fourtyeightIndexes.append(i)
+
+fiftyeightIndexes = []
+for i in range(0, 1000):
+    if rpm[i] > 57500 and rpm[i] < 58500:
+        fiftyeightIndexes.append(i)
+
+sixtyeightIndexes = []
+for i in range(0, 1000):
+    if rpm[i] > 67500 and rpm[i] < 68500:
+        sixtyeightIndexes.append(i)
+
+max = []
+for i in range(0, 1300):
+    if rpm[i] > 76300:
+        max.append(i)
+
+
+fig, ax = plt.subplots()
+ax.plot(time, rpm, color='black')
+ax.axvspan(0, 120, facecolor='indianred', alpha=.5)
+ax.axvspan(fourtyeightIndexes[10], fourtyeightIndexes[-3], facecolor='indianred', alpha=.5)
+ax.axvspan(fiftyeightIndexes[20], fiftyeightIndexes[-3], facecolor='indianred', alpha=.5)
+ax.axvspan(sixtyeightIndexes[15], sixtyeightIndexes[-3], facecolor='indianred', alpha=.5)
+ax.axvspan(max[0], max[-1], facecolor='indianred', alpha=.5)
+# plt.show()
+
+
+steadyStateFortyEight = fourtyeightIndexes[10:-3]
+steadyStateFiftyEight = fiftyeightIndexes[20:-3]
+steadyStateSixtyEight = sixtyeightIndexes[15:-3]
+steadyMax = max[0:-1]
+
 
 
 
 
 # ########## Question 3 ##########
-# def averageProperties(rpm1, rp1):
-#     for i in range(len(rpm)):
-#         if rpm[i] > 46000 and rpm[i] << 50000:
-#             averageRPM = 
+#Tabulated  columns  should  be  RPM,  T1(C),  T2(C),  T3(C),  T4(C),  P1(kPa),  P2(kPa), P3(kPa), P4(kPa), Fuel Flow (L/hr),  and Thrust (N).  
+
+# Average values at startup
+def average(minIndex, maxIndex):
+    rpmAverage = np.average(rpm[minIndex:maxIndex])
+    t1Average = np.average(t1[minIndex:maxIndex])
+    t2Average = np.average(t2[minIndex:maxIndex])
+    t3Average = np.average(t3[minIndex:maxIndex])
+    t4Average = np.average(t4[minIndex:maxIndex])
+    p1Average = np.average(p1[minIndex:maxIndex])
+    p2Average = np.average(p2[minIndex:maxIndex])
+    p3Average = np.average(p3[minIndex:maxIndex])
+    p4Average = np.average(p4[minIndex:maxIndex])
+    fuelFlowAverage = np.average(fuelFLow[minIndex:maxIndex])
+    thrustAverage = np.average(thrust[minIndex:maxIndex])
+
+    return rpmAverage, t1Average, t2Average, t3Average, t4Average, p1Average, p2Average, p3Average, p4Average, fuelFlowAverage, thrustAverage
+
+rpmAverageStart, t1AverageStart, t2AverageStart, t3AverageStart, t4AverageStart, p1AverageStart, p2AverageStart, p3AverageStart, p4AverageStart, fuelFlowAverageStart, thrustAverageStart = average(0, 120)
+
+rpmAverageFourtyEight, t1AverageFourtyEight, t2AverageFourtyEight, t3AverageFourtyEight, t4AverageFourtyEight, p1AverageFourtyEight, p2AverageFourtyEight, p3AverageFourtyEight, p4AverageFourtyEight, fuelFlowAverageFourtyEight, thrustAverageFourtyEight = average(steadyStateFortyEight[0], steadyStateFortyEight[-1])
+
+rpmAverageFiftyEight, t1AverageFiftyEight, t2AverageFiftyEight, t3AverageFiftyEight, t4AverageFiftyEight, p1AverageFiftyEight, p2AverageFiftyEight, p3AverageFiftyEight, p4AverageFiftyEight, fuelFlowAverageFiftyEight, thrustAverageFiftyEight = average(steadyStateFiftyEight[0], steadyStateFiftyEight[-1])
+
+rpmAverageSixtyEight, t1AverageSixtyEight, t2AverageSixtyEight, t3AverageSixtyEight, t4AverageSixtyEight, p1AverageSixtyEight, p2AverageSixtyEight, p3AverageSixtyEight, p4AverageSixtyEight, fuelFlowAverageSixtyEight, thrustAverageSixtyEight = average(steadyStateSixtyEight[0], steadyStateSixtyEight[-1])
+
+rpmAverageMax, t1rpmAverageMax, t2rpmAverageMax, t3rpmAverageMax, t4rpmAverageMax, p1rpmAverageMax, p2rpmAverageMax, p3rpmAverageMax, p4rpmAverageMax, fuelFlowrpmAverageMax, thrustrpmAverageMax = average(steadyMax[0], steadyMax[-1])
+
