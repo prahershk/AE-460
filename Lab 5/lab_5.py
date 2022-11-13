@@ -12,7 +12,6 @@ import warnings
 from scipy.integrate import solve_ivp
 import math
 import csv
-
 import matplotlib.colors as mcolors
 
 data = pd.read_csv("2022-10-30 Sample Data.txt", sep='\t', lineterminator='\r')
@@ -106,4 +105,80 @@ rpmAverageMax, t1rpmAverageMax, t2rpmAverageMax, t3rpmAverageMax, t4rpmAverageMa
 df = pd.DataFrame(np.array([[rpmAverageStart, t1AverageStart, t2AverageStart, t3AverageStart, t4AverageStart, p1AverageStart, p2AverageStart, p3AverageStart, p4AverageStart, fuelFlowAverageStart, thrustAverageStart], [rpmAverageFourtyEight, t1AverageFourtyEight, t2AverageFourtyEight, t3AverageFourtyEight, t4AverageFourtyEight, p1AverageFourtyEight, p2AverageFourtyEight, p3AverageFourtyEight, p4AverageFourtyEight, fuelFlowAverageFourtyEight, thrustAverageFourtyEight], [rpmAverageFiftyEight, t1AverageFiftyEight, t2AverageFiftyEight, t3AverageFiftyEight, t4AverageFiftyEight, p1AverageFiftyEight, p2AverageFiftyEight, p3AverageFiftyEight, p4AverageFiftyEight, fuelFlowAverageFiftyEight, thrustAverageFiftyEight], [rpmAverageSixtyEight, t1AverageSixtyEight, t2AverageSixtyEight, t3AverageSixtyEight, t4AverageSixtyEight, p1AverageSixtyEight, p2AverageSixtyEight, p3AverageSixtyEight, p4AverageSixtyEight, fuelFlowAverageSixtyEight, thrustAverageSixtyEight], [rpmAverageMax, t1rpmAverageMax, t2rpmAverageMax, t3rpmAverageMax, t4rpmAverageMax, p1rpmAverageMax, p2rpmAverageMax, p3rpmAverageMax, p4rpmAverageMax, fuelFlowrpmAverageMax, thrustrpmAverageMax]]))
 df.columns = ["Average RPM [rpm]", "Average T1 [C]", "Average T2 [C]", "Average T3 [C]", "Average T4 [C]", "Average P1 [kPa]", "Average P2 [kPa]", "Average P3 [kPa]", "Average P4 [kPa]","Average Fuel Flow [L/hr]", "Average Thrust [N]"]
 df = df.round(decimals = 4)
-print(df.to_latex(index=False))  
+# print(df.to_latex(index=False)) 
+
+
+def kelvinConvert(T):
+    return T + 273.15
+
+def interpolation(h1, h2, T, T1, T2):
+    return h1 + (T - T1)*(h2 - h1)/(T2 - T1)
+
+print(kelvinConvert(t1rpmAverageMax), kelvinConvert(t2rpmAverageMax), kelvinConvert(t3rpmAverageMax), kelvinConvert(t4rpmAverageMax))
+
+###### Question 3 Part 2 ######
+h1Start =  interpolation(295.17, 300.19, kelvinConvert(t1AverageStart), 295, 300) 
+h2Start = interpolation(295.17, 300.19, kelvinConvert(t2AverageStart), 295, 300)  
+h3Start = interpolation(295.17, 300.19, kelvinConvert(t3AverageStart), 295, 300) 
+h4Start = interpolation(295.17, 300.19, kelvinConvert(t4AverageStart), 295, 300) 
+
+h1FortyEight =  interpolation(295.17, 300.19, kelvinConvert(t1AverageFourtyEight), 295, 300) 
+h2FortyEight = interpolation(325.31, 330.34, kelvinConvert(t2AverageFourtyEight), 325, 330)  
+h3FortyEight = interpolation(800.03, 810.99, kelvinConvert(t3AverageFourtyEight), 780, 790) 
+h4FortyEight = interpolation(472.24, 482.49, kelvinConvert(t4AverageFourtyEight), 470, 480)
+
+h1FiftyEight =  interpolation(295.17, 300.19, kelvinConvert(t1AverageFiftyEight), 295, 300) 
+h2FiftyEight = interpolation(380.77, 390.88, kelvinConvert(t2AverageFiftyEight), 380, 390)  
+h3FiftyEight = interpolation(932.93, 955.38, kelvinConvert(t3AverageFiftyEight), 900, 920) 
+h4FiftyEight = interpolation(586.04, 596.52, kelvinConvert(t4AverageFiftyEight), 580, 590)
+
+
+h1SixtyEight =  interpolation(295.17, 300.19, kelvinConvert(t1AverageSixtyEight), 295, 300) 
+h2SixtyEight = interpolation(411.12, 421.26, kelvinConvert(t2AverageSixtyEight), 410, 420)  
+h3SixtyEight = interpolation(1023.25, 1046.04, kelvinConvert(t3AverageSixtyEight), 980, 1000) 
+h4SixtyEight = interpolation(607.02, 617.53, kelvinConvert(t4AverageSixtyEight), 610, 620)
+
+h1Max =  interpolation(295.17, 300.19, kelvinConvert(t1rpmAverageMax), 295, 300) 
+h2Max = interpolation(451.80, 462.02, kelvinConvert(t2rpmAverageMax), 450, 460)  
+h3Max = interpolation(1114.86, 1137.89, kelvinConvert(t3rpmAverageMax), 1060, 1080) 
+h4Max = interpolation(628.07, 638.63, kelvinConvert(t4rpmAverageMax), 620, 630)
+
+Pamb = 97.6 # kPa
+def staticPressure(P):
+    return Pamb - P
+
+P1StartStatic = staticPressure(p1AverageStart)
+P2StartStatic = staticPressure(p2AverageStart)
+P3StartStatic = staticPressure(p3AverageStart)
+P4StartStatic = staticPressure(p4AverageStart)
+
+P1FourtyEightStatic = staticPressure(p1AverageFourtyEight)
+P2FourtyEightStatic = staticPressure(p2AverageFourtyEight)
+P3FourtyEightStatic = staticPressure(p3AverageFourtyEight)
+P4FourtyEightStatic = staticPressure(p4AverageFourtyEight)
+
+P1FiftyEightStatic = staticPressure(p1AverageFiftyEight)
+P2FiftyEightStatic = staticPressure(p2AverageFiftyEight)
+P3FiftyEightStatic = staticPressure(p3AverageFiftyEight)
+P4FiftyEightStatic = staticPressure(p4AverageFiftyEight)
+
+P1SixtyEightStatic = staticPressure(p1AverageSixtyEight)
+P2SixtyEightStatic = staticPressure(p2AverageSixtyEight)
+P3SixtyEightStatic = staticPressure(p3AverageSixtyEight)
+P4SixtyEightStatic = staticPressure(p4AverageSixtyEight)
+
+P1MaxStatic = staticPressure(p1rpmAverageMax)
+P2MaxStatic = staticPressure(p2rpmAverageMax)
+P3MaxStatic = staticPressure(p3rpmAverageMax)
+P4MaxStatic = staticPressure(p4rpmAverageMax)
+
+df3 = pd.DataFrame(np.array([[h1Start, h2Start, h3Start, h4Start, P1StartStatic, P2StartStatic, P3StartStatic, P4StartStatic],
+    [h1FortyEight, h2FortyEight, h3FortyEight, h4FortyEight, P1FourtyEightStatic, P2FourtyEightStatic, P3FourtyEightStatic, P4FourtyEightStatic],
+    [h1FiftyEight, h2FiftyEight, h3FiftyEight, h4FiftyEight, P1FiftyEightStatic, P2FiftyEightStatic, P3FiftyEightStatic, P4FiftyEightStatic],
+    [h1SixtyEight, h2SixtyEight, h3SixtyEight, h4SixtyEight, P1SixtyEightStatic, P2SixtyEightStatic, P3SixtyEightStatic, P4SixtyEightStatic],
+    [h1Max, h2Max, h3Max, h4Max, P1MaxStatic, P2MaxStatic, P3MaxStatic, P4MaxStatic]]))
+df3.columns = ["h1", "h2", "h3", "h4", "P1", "P2", "P3", "P4"]
+df3 = df3.round(decimals = 4)
+print(df3.to_latex(index=False))
+
+
