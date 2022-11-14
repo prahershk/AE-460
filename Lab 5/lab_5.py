@@ -64,7 +64,7 @@ ax.axvspan(max[0], max[-1], facecolor='indianred', alpha=.5)
 plt.xlabel("Time [s]")
 plt.ylabel("RPM [rpm]")
 plt.title("Time [s] vs Jet Engine RPM [rpm]")
-# plt.savefig("Question_2.png", dpi = 300)
+plt.savefig("Question_2.png", dpi = 300)
 
 
 steadyStateFortyEight = fourtyeightIndexes[10:-3]
@@ -183,5 +183,16 @@ df3 = pd.DataFrame(np.array([[h1Start, h2Start, h3Start, h4Start, P1StartStatic,
 df3.columns = ["h1", "h2", "h3", "h4", "P1", "P2", "P3", "P4"]
 df3 = df3.round(decimals = 4)
 # print(df3.to_latex(index=False))
+# ########## Question 4 ##########
+rpm = np.array([48000, 58000, 68000, 77000])
+h1 = np.array([296.6773, 96.9568, 296.8345, 296.5224])
+h2 = np.array([326.7553, 383.5246, 418.5055, 452.7588])
+h2s = 300*np.ones(len(h2))
+nC = (h2s - h1) / (h2 - h1)
+plt.bar(nC, rpm, color = 'red', width = 0.4)
+plt.xlabel('RPM')
+plt.ylabel('nC')
+plt.title('Isentropic Compressor Efficiency vs RPM')
+plt.savefig("Question_4.png", dpi = 300)
 
 
