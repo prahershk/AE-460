@@ -54,17 +54,17 @@ for i in range(0, 1300):
         max.append(i)
 
 
-fig, ax = plt.subplots()
-ax.plot(time, rpm, color='black')
-ax.axvspan(0, 120, facecolor='indianred', alpha=.5)
-ax.axvspan(fourtyeightIndexes[10], fourtyeightIndexes[-3], facecolor='indianred', alpha=.5)
-ax.axvspan(fiftyeightIndexes[20], fiftyeightIndexes[-3], facecolor='indianred', alpha=.5)
-ax.axvspan(sixtyeightIndexes[15], sixtyeightIndexes[-3], facecolor='indianred', alpha=.5)
-ax.axvspan(max[0], max[-1], facecolor='indianred', alpha=.5)
-plt.xlabel("Time [s]")
-plt.ylabel("RPM [rpm]")
-plt.title("Time [s] vs Jet Engine RPM [rpm]")
-plt.savefig("Question_2.png", dpi = 300)
+# fig, ax = plt.subplots()
+# ax.plot(time, rpm, color='black')
+# ax.axvspan(0, 120, facecolor='indianred', alpha=.5)
+# ax.axvspan(fourtyeightIndexes[10], fourtyeightIndexes[-3], facecolor='indianred', alpha=.5)
+# ax.axvspan(fiftyeightIndexes[20], fiftyeightIndexes[-3], facecolor='indianred', alpha=.5)
+# ax.axvspan(sixtyeightIndexes[15], sixtyeightIndexes[-3], facecolor='indianred', alpha=.5)
+# ax.axvspan(max[0], max[-1], facecolor='indianred', alpha=.5)
+# plt.xlabel("Time [s]")
+# plt.ylabel("RPM [rpm]")
+# plt.title("Time [s] vs Jet Engine RPM [rpm]")
+# plt.savefig("Question_2.png", dpi = 300)
 
 
 steadyStateFortyEight = fourtyeightIndexes[10:-3]
@@ -183,16 +183,24 @@ df3 = pd.DataFrame(np.array([[h1Start, h2Start, h3Start, h4Start, P1StartStatic,
 df3.columns = ["h1", "h2", "h3", "h4", "P1", "P2", "P3", "P4"]
 df3 = df3.round(decimals = 4)
 # print(df3.to_latex(index=False))
-# ########## Question 4 ##########
 rpm = np.array([48000, 58000, 68000, 77000])
-h1 = np.array([296.6773, 96.9568, 296.8345, 296.5224])
-h2 = np.array([326.7553, 383.5246, 418.5055, 452.7588])
-h2s = 300*np.ones(len(h2))
-nC = (h2s - h1) / (h2 - h1)
-plt.bar(nC, rpm, color = 'red', width = 0.4)
+# ########## Question 4 ##########
+# h1 = np.array([296.6773, 96.9568, 296.8345, 296.5224])
+# h2 = np.array([326.7553, 383.5246, 418.5055, 452.7588])
+# h2s = 450*np.ones(len(h2))
+# nC = (h2s - h1) / (h2 - h1)
+# plt.bar(rpm, nC, width=0.5*(rpm[1]-rpm[0]), ec='k', lw=1)
+# plt.xlabel('RPM')
+# plt.ylabel('nC')
+# plt.title('Isentropic Compressor Efficiency vs RPM')
+# plt.savefig("Question_4.png", dpi = 300)
+# ########## Question 5 ##########
+h3 = np.array([806.7255, 946.4309, 1037.525, 1119.557])
+h4 = np.array([475.957, 593.3661, 605.2865, 630.9921])
+h4s = 450*np.ones(len(h4))
+nT = (h3 - h4) / (h3 - h4s)
+plt.bar(rpm, nT, width=0.5*(rpm[1]-rpm[0]), ec='k', lw=1)
 plt.xlabel('RPM')
-plt.ylabel('nC')
-plt.title('Isentropic Compressor Efficiency vs RPM')
-plt.savefig("Question_4.png", dpi = 300)
-
-
+plt.ylabel('nT')
+plt.title('Thermal Efficiency vs RPM')
+plt.savefig("Question_5.png", dpi = 300)
