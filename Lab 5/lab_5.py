@@ -198,7 +198,8 @@ h2sMax = interpolation(411.12, 421.26, pr2[3], 4.522,  4.915)
 
 h2sValues = np.array([h2sFortyEight, h2sFiftyEight, h2sSixtyEight, h2sMax])
 print(h2sValues)
-h4sFortyEight = interpolation(659.84, 670.47, pr4[0], 21.86, 23.13)
+
+h4sFortyEight = interpolation(681.14, 691.82, pr4[0], 24.46, 25.85)
 h4sFiftyEight = interpolation(767.29, 778.18, pr4[1], 39.27, 41.31)
 h4sSixtyEight = interpolation(810.99, 821.95, pr4[2], 45.55, 47.75)
 h4sMax = interpolation(821.95, 843.98, pr4[3], 47.75, 52.59)
