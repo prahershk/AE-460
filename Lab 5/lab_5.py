@@ -14,6 +14,8 @@ import math
 import csv
 import matplotlib.colors as mcolors
 
+###### Comment and uncomment lines based on which question is being run
+
 data = pd.read_csv("2022-10-30 Sample Data.txt", sep='\t', lineterminator='\r')
 
 time = np.array(data["Time (sec)"].tolist())
@@ -54,16 +56,16 @@ for i in range(0, 1300):
         max.append(i)
 
 
-fig, ax = plt.subplots()
-ax.plot(time, rpm, color='black')
-ax.axvspan(0, 120, facecolor='indianred', alpha=.5)
-ax.axvspan(fourtyeightIndexes[10], fourtyeightIndexes[-3], facecolor='indianred', alpha=.5)
-ax.axvspan(fiftyeightIndexes[20], fiftyeightIndexes[-3], facecolor='indianred', alpha=.5)
-ax.axvspan(sixtyeightIndexes[15], sixtyeightIndexes[-3], facecolor='indianred', alpha=.5)
-ax.axvspan(max[0], max[-1], facecolor='indianred', alpha=.5)
-plt.xlabel("Time [s]")
-plt.ylabel("RPM [rpm]")
-plt.title("Time [s] vs Jet Engine RPM [rpm]")
+# fig, ax = plt.subplots()
+# ax.plot(time, rpm, color='black')
+# ax.axvspan(0, 120, facecolor='indianred', alpha=.5)
+# ax.axvspan(fourtyeightIndexes[10], fourtyeightIndexes[-3], facecolor='indianred', alpha=.5)
+# ax.axvspan(fiftyeightIndexes[20], fiftyeightIndexes[-3], facecolor='indianred', alpha=.5)
+# ax.axvspan(sixtyeightIndexes[15], sixtyeightIndexes[-3], facecolor='indianred', alpha=.5)
+# ax.axvspan(max[0], max[-1], facecolor='indianred', alpha=.5)
+# plt.xlabel("Time [s]")
+# plt.ylabel("RPM [rpm]")
+# plt.title("Time [s] vs Jet Engine RPM [rpm]")
 # plt.savefig("Question_2.png", dpi = 300)
 
 
@@ -182,6 +184,34 @@ df3 = pd.DataFrame(np.array([[h1Start, h2Start, h3Start, h4Start, P1StartStatic,
     [h1Max, h2Max, h3Max, h4Max, P1MaxStatic, P2MaxStatic, P3MaxStatic, P4MaxStatic]]))
 df3.columns = ["h1", "h2", "h3", "h4", "P1", "P2", "P3", "P4"]
 df3 = df3.round(decimals = 4)
-print(df3)
-
-
+# print(df3.to_latex(index=False))
+rpm = np.array([48000, 58000, 68000, 77000])
+# ########## Question 4 ##########
+# h1 = np.array([296.6773, 96.9568, 296.8345, 296.5224])
+# h2 = np.array([326.7553, 383.5246, 418.5055, 452.7588])
+# h2s = 450*np.ones(len(h2))
+# nC = (h2s - h1) / (h2 - h1)
+# plt.bar(rpm, nC, width=0.5*(rpm[1]-rpm[0]), ec='k', lw=1)
+# plt.xlabel('RPM')
+# plt.ylabel('nC')
+# plt.title('Isentropic Compressor Efficiency vs RPM')
+# plt.savefig("Question_4.png", dpi = 300)
+# ########## Question 5 ##########
+# h3 = np.array([806.7255, 946.4309, 1037.525, 1119.557])
+# h4 = np.array([475.957, 593.3661, 605.2865, 630.9921])
+# h4s = 450*np.ones(len(h4))
+# nT = (h3 - h4) / (h3 - h4s)
+# plt.bar(rpm, nT, width=0.5*(rpm[1]-rpm[0]), ec='k', lw=1)
+# plt.xlabel('RPM')
+# plt.ylabel('nT')
+# plt.title('Thermal Efficiency vs RPM')
+# plt.savefig("Question_5.png", dpi = 300)
+# ########## Question 6 ##########
+fuelBurn = (1000 / 3600) * np.array([12.0913, 14.3843, 16.9846, 23.0152])
+thrust = np.array([22.9820, 39.5724, 54.2893, 81.4098])
+SFC = fuelBurn / thrust
+plt.bar(rpm, SFC, width=0.5*(rpm[1]-rpm[0]), ec='k', lw=1)
+plt.xlabel('RPM')
+plt.ylabel('SFC')
+plt.title('Specific Fuel Consumption vs RPM')
+plt.savefig("Question_6.png", dpi = 300)
