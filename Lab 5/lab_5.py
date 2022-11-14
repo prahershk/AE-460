@@ -110,8 +110,7 @@ rpmAverageMax, t1rpmAverageMax, t2rpmAverageMax, t3rpmAverageMax, t4rpmAverageMa
 df = pd.DataFrame(np.array([[rpmAverageStart, t1AverageStart, t2AverageStart, t3AverageStart, t4AverageStart, p1AverageStart, p2AverageStart, p3AverageStart, p4AverageStart, fuelFlowAverageStart, thrustAverageStart], [rpmAverageFourtyEight, t1AverageFourtyEight, t2AverageFourtyEight, t3AverageFourtyEight, t4AverageFourtyEight, p1AverageFourtyEight, p2AverageFourtyEight, p3AverageFourtyEight, p4AverageFourtyEight, fuelFlowAverageFourtyEight, thrustAverageFourtyEight], [rpmAverageFiftyEight, t1AverageFiftyEight, t2AverageFiftyEight, t3AverageFiftyEight, t4AverageFiftyEight, p1AverageFiftyEight, p2AverageFiftyEight, p3AverageFiftyEight, p4AverageFiftyEight, fuelFlowAverageFiftyEight, thrustAverageFiftyEight], [rpmAverageSixtyEight, t1AverageSixtyEight, t2AverageSixtyEight, t3AverageSixtyEight, t4AverageSixtyEight, p1AverageSixtyEight, p2AverageSixtyEight, p3AverageSixtyEight, p4AverageSixtyEight, fuelFlowAverageSixtyEight, thrustAverageSixtyEight], [rpmAverageMax, t1rpmAverageMax, t2rpmAverageMax, t3rpmAverageMax, t4rpmAverageMax, p1rpmAverageMax, p2rpmAverageMax, p3rpmAverageMax, p4rpmAverageMax, fuelFlowrpmAverageMax, thrustrpmAverageMax]]))
 df.columns = ["Average RPM [rpm]", "Average T1 [C]", "Average T2 [C]", "Average T3 [C]", "Average T4 [C]", "Average P1 [kPa]", "Average P2 [kPa]", "Average P3 [kPa]", "Average P4 [kPa]","Average Fuel Flow [L/hr]", "Average Thrust [N]"]
 df = df.round(decimals = 4)
-# print(df) 
-
+# print(df)
 
 def kelvinConvert(T):
     return T + 273.15
@@ -187,47 +186,65 @@ df3 = df3.round(decimals = 4)
 # print(df3.to_latex(index=False))
 
 
-pr1 = np.array([1.3571745, 1.341385601, 1.339375168, 1.333555967])
-pr2 = np.array([2.388066747, 2.661892397, 3.370680765, 4.25473326])
-pr3 = np.array([39.091908, 78.89611029, 110.3078512, 146.038569])
-pr4 = np.array([22.74440543, 40.99741848, 45.91377986,49.07503883])
+pr1 = np.array([1.3470996, 1.341385601, 1.339375168, 1.333555967])
+pr2 = np.array([2.370339083, 2.661892397, 3.370680765, 4.25473326])
+pr3 = np.array([42.71110056, 78.89611029, 110.3078512, 146.038569])
+pr4 = np.array([24.85011956, 40.99741848, 45.91377986,49.07503883])
 
-h2sFortyEight = interpolation(350.48, 360.58, pr2[0], 2.379, 2.626)
+h2sFortyEight = interpolation(340.42, 350.49, pr2[0], 2.149, 2.379)
 h2sFiftyEight = interpolation(360.58, 370.67, pr2[1], 2.626, 2.892)
 h2sSixtyEight = interpolation(380.77, 390.88, pr2[2], 3.176, 3.481 )
 h2sMax = interpolation(411.12, 421.26, pr2[3], 4.522,  4.915)
 
-h2Values = np.array([h2sFortyEight, h2sFiftyEight, h2sSixtyEight, h2sMax])
-print(h2Values)
+h2sValues = np.array([h2sFortyEight, h2sFiftyEight, h2sSixtyEight, h2sMax])
+print(h2sValues)
+h4sFortyEight = interpolation(659.84, 670.47, pr4[0], 21.86, 23.13)
+h4sFiftyEight = interpolation(767.29, 778.18, pr4[1], 39.27, 41.31)
+h4sSixtyEight = interpolation(810.99, 821.95, pr4[2], 45.55, 47.75)
+h4sMax = interpolation(821.95, 843.98, pr4[3], 47.75, 52.59)
 
+h4sValues = np.array([h4sFortyEight, h4sFiftyEight, h4sSixtyEight, h4sMax])
+print(h4sValues)
 
 rpm = np.array([48000, 58000, 68000, 77000])
+
+
 # ########## Question 4 ##########
 h1 = np.array([296.6773, 296.9568, 296.8345, 296.5224])
 h2 = np.array([326.7553, 383.5246, 418.5055, 452.7588])
-h2s = h2Values
+h2s = h2sValues
 nC = (h2s - h1) / (h2 - h1)
-plt.bar(rpm, nC, width=0.5*(rpm[1]-rpm[0]), ec='k', lw=1)
+plt.bar(rpm, nC, width=0.5*(rpm[1]-rpm[0]))
+plt.xticks(rpm)
 plt.xlabel('RPM')
 plt.ylabel('nC')
 plt.title('Isentropic Compressor Efficiency vs RPM')
 plt.savefig("Question_4.png", dpi = 300)
+
+
+
+
 # ########## Question 5 ##########
-# h3 = np.array([806.7255, 946.4309, 1037.525, 1119.557])
-# h4 = np.array([475.957, 593.3661, 605.2865, 630.9921])
-# h4s = 450*np.ones(len(h4))
-# nT = (h3 - h4) / (h3 - h4s)
-# plt.bar(rpm, nT, width=0.5*(rpm[1]-rpm[0]), ec='k', lw=1)
-# plt.xlabel('RPM')
-# plt.ylabel('nT')
-# plt.title('Thermal Efficiency vs RPM')
-# plt.savefig("Question_5.png", dpi = 300)
-# ########## Question 6 ##########
-# fuelBurn = (1000 / 3600) * np.array([12.0913, 14.3843, 16.9846, 23.0152])
-# thrust = np.array([22.9820, 39.5724, 54.2893, 81.4098])
-# SFC = fuelBurn / thrust
-# plt.bar(rpm, SFC, width=0.5*(rpm[1]-rpm[0]), ec='k', lw=1)
-# plt.xlabel('RPM')
-# plt.ylabel('SFC')
-# plt.title('Specific Fuel Consumption vs RPM')
-# plt.savefig("Question_6.png", dpi = 300)
+h3 = np.array([806.7255, 946.4309, 1037.525, 1119.557])
+h4 = np.array([475.957, 593.3661, 605.2865, 630.9921])
+nT = (h3 - h4) / (h3 - h4sValues)
+plt.bar(rpm, nT, width=0.5*(rpm[1]-rpm[0]), ec='k', lw=1)
+plt.xticks(rpm)
+plt.xlabel('RPM')
+plt.ylabel('nT')
+plt.title('Thermal Efficiency vs RPM')
+plt.savefig("Question_5.png", dpi = 300)
+
+
+
+########## Question 6 ##########
+plt.clf()
+fuelBurn = (1000 / 3600) * np.array([12.0913, 14.3843, 16.9846, 23.0152])
+thrust = np.array([22.9820, 39.5724, 54.2893, 81.4098])
+SFC = fuelBurn / thrust
+plt.bar(rpm, SFC, width=0.5*(rpm[1]-rpm[0]), ec='k', lw=1)
+plt.xticks(rpm)
+plt.xlabel('RPM')
+plt.ylabel('SFC')
+plt.title('Specific Fuel Consumption vs RPM')
+plt.savefig("Question_6.png", dpi = 300)
