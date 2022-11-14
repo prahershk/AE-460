@@ -186,17 +186,24 @@ df3.columns = ["h1", "h2", "h3", "h4", "P1", "P2", "P3", "P4"]
 df3 = df3.round(decimals = 4)
 # print(df3.to_latex(index=False))
 
-h2sFortyEight = interpolation(810.99, 821.95, 46.36742507, 45.55, 47.75)
-h2sFiftyEight = interpolation(810.99, 821.95, 47.65061417, 45.55, 47.75)
-h2sSixtyEight = interpolation(810.99, 821.95, 46.89504404, 45.55, 47.75)
-h2sMax = interpolation(800.03, 810.99, 44.5641198, 43.35,  45.55)
+
+pr1 = np.array([1.3571745, 1.341385601, 1.339375168, 1.333555967])
+pr2 = np.array([2.388066747, 2.661892397, 3.370680765, 4.25473326])
+pr3 = np.array([39.091908, 78.89611029, 110.3078512, 146.038569])
+pr4 = np.array([22.74440543, 40.99741848, 45.91377986,49.07503883])
+
+h2sFortyEight = interpolation(350.48, 360.58, pr2[0], 2.379, 2.626)
+h2sFiftyEight = interpolation(360.58, 370.67, pr2[1], 2.626, 2.892)
+h2sSixtyEight = interpolation(380.77, 390.88, pr2[2], 3.176, 3.481 )
+h2sMax = interpolation(411.12, 421.26, pr2[3], 4.522,  4.915)
 
 h2Values = np.array([h2sFortyEight, h2sFiftyEight, h2sSixtyEight, h2sMax])
 print(h2Values)
 
+
 rpm = np.array([48000, 58000, 68000, 77000])
 # ########## Question 4 ##########
-h1 = np.array([296.6773, 96.9568, 296.8345, 296.5224])
+h1 = np.array([296.6773, 296.9568, 296.8345, 296.5224])
 h2 = np.array([326.7553, 383.5246, 418.5055, 452.7588])
 h2s = h2Values
 nC = (h2s - h1) / (h2 - h1)
