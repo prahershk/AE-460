@@ -14,6 +14,8 @@ import math
 import csv
 import matplotlib.colors as mcolors
 
+###### Comment and uncomment lines based on which question is being run
+
 data = pd.read_csv("2022-10-30 Sample Data.txt", sep='\t', lineterminator='\r')
 
 time = np.array(data["Time (sec)"].tolist())
@@ -195,12 +197,21 @@ rpm = np.array([48000, 58000, 68000, 77000])
 # plt.title('Isentropic Compressor Efficiency vs RPM')
 # plt.savefig("Question_4.png", dpi = 300)
 # ########## Question 5 ##########
-h3 = np.array([806.7255, 946.4309, 1037.525, 1119.557])
-h4 = np.array([475.957, 593.3661, 605.2865, 630.9921])
-h4s = 450*np.ones(len(h4))
-nT = (h3 - h4) / (h3 - h4s)
-plt.bar(rpm, nT, width=0.5*(rpm[1]-rpm[0]), ec='k', lw=1)
+# h3 = np.array([806.7255, 946.4309, 1037.525, 1119.557])
+# h4 = np.array([475.957, 593.3661, 605.2865, 630.9921])
+# h4s = 450*np.ones(len(h4))
+# nT = (h3 - h4) / (h3 - h4s)
+# plt.bar(rpm, nT, width=0.5*(rpm[1]-rpm[0]), ec='k', lw=1)
+# plt.xlabel('RPM')
+# plt.ylabel('nT')
+# plt.title('Thermal Efficiency vs RPM')
+# plt.savefig("Question_5.png", dpi = 300)
+# ########## Question 6 ##########
+fuelBurn = (1000 / 3600) * np.array([12.0913, 14.3843, 16.9846, 23.0152])
+thrust = np.array([22.9820, 39.5724, 54.2893, 81.4098])
+SFC = fuelBurn / thrust
+plt.bar(rpm, SFC, width=0.5*(rpm[1]-rpm[0]), ec='k', lw=1)
 plt.xlabel('RPM')
-plt.ylabel('nT')
-plt.title('Thermal Efficiency vs RPM')
-plt.savefig("Question_5.png", dpi = 300)
+plt.ylabel('SFC')
+plt.title('Specific Fuel Consumption vs RPM')
+plt.savefig("Question_6.png", dpi = 300)
