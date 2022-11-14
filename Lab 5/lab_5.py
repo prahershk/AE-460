@@ -61,7 +61,10 @@ ax.axvspan(fourtyeightIndexes[10], fourtyeightIndexes[-3], facecolor='indianred'
 ax.axvspan(fiftyeightIndexes[20], fiftyeightIndexes[-3], facecolor='indianred', alpha=.5)
 ax.axvspan(sixtyeightIndexes[15], sixtyeightIndexes[-3], facecolor='indianred', alpha=.5)
 ax.axvspan(max[0], max[-1], facecolor='indianred', alpha=.5)
-# plt.show()
+plt.xlabel("Time [s]")
+plt.ylabel("RPM [rpm]")
+plt.title("Time [s] vs Jet Engine RPM [rpm]")
+# plt.savefig("Question_2.png", dpi = 300)
 
 
 steadyStateFortyEight = fourtyeightIndexes[10:-3]
