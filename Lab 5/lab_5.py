@@ -110,7 +110,7 @@ rpmAverageMax, t1rpmAverageMax, t2rpmAverageMax, t3rpmAverageMax, t4rpmAverageMa
 df = pd.DataFrame(np.array([[rpmAverageStart, t1AverageStart, t2AverageStart, t3AverageStart, t4AverageStart, p1AverageStart, p2AverageStart, p3AverageStart, p4AverageStart, fuelFlowAverageStart, thrustAverageStart], [rpmAverageFourtyEight, t1AverageFourtyEight, t2AverageFourtyEight, t3AverageFourtyEight, t4AverageFourtyEight, p1AverageFourtyEight, p2AverageFourtyEight, p3AverageFourtyEight, p4AverageFourtyEight, fuelFlowAverageFourtyEight, thrustAverageFourtyEight], [rpmAverageFiftyEight, t1AverageFiftyEight, t2AverageFiftyEight, t3AverageFiftyEight, t4AverageFiftyEight, p1AverageFiftyEight, p2AverageFiftyEight, p3AverageFiftyEight, p4AverageFiftyEight, fuelFlowAverageFiftyEight, thrustAverageFiftyEight], [rpmAverageSixtyEight, t1AverageSixtyEight, t2AverageSixtyEight, t3AverageSixtyEight, t4AverageSixtyEight, p1AverageSixtyEight, p2AverageSixtyEight, p3AverageSixtyEight, p4AverageSixtyEight, fuelFlowAverageSixtyEight, thrustAverageSixtyEight], [rpmAverageMax, t1rpmAverageMax, t2rpmAverageMax, t3rpmAverageMax, t4rpmAverageMax, p1rpmAverageMax, p2rpmAverageMax, p3rpmAverageMax, p4rpmAverageMax, fuelFlowrpmAverageMax, thrustrpmAverageMax]]))
 df.columns = ["Average RPM [rpm]", "Average T1 [C]", "Average T2 [C]", "Average T3 [C]", "Average T4 [C]", "Average P1 [kPa]", "Average P2 [kPa]", "Average P3 [kPa]", "Average P4 [kPa]","Average Fuel Flow [L/hr]", "Average Thrust [N]"]
 df = df.round(decimals = 4)
-print(df) 
+# print(df) 
 
 
 def kelvinConvert(T):
@@ -119,7 +119,7 @@ def kelvinConvert(T):
 def interpolation(h1, h2, T, T1, T2):
     return h1 + (T - T1)*(h2 - h1)/(T2 - T1)
 
-print(kelvinConvert(t1rpmAverageMax), kelvinConvert(t2rpmAverageMax), kelvinConvert(t3rpmAverageMax), kelvinConvert(t4rpmAverageMax))
+# print(kelvinConvert(t1rpmAverageMax), kelvinConvert(t2rpmAverageMax), kelvinConvert(t3rpmAverageMax), kelvinConvert(t4rpmAverageMax))
 
 ###### Question 3 Part 2 ######
 h1Start =  interpolation(295.17, 300.19, kelvinConvert(t1AverageStart), 295, 300) 
@@ -185,6 +185,15 @@ df3 = pd.DataFrame(np.array([[h1Start, h2Start, h3Start, h4Start, P1StartStatic,
 df3.columns = ["h1", "h2", "h3", "h4", "P1", "P2", "P3", "P4"]
 df3 = df3.round(decimals = 4)
 # print(df3.to_latex(index=False))
+
+h2sFortyEight = interpolation(810.99, 821.95, 46.36742507, 45.55, 47.75)
+h2sFiftyEight = interpolation(810.99, 821.95, 47.65061417, 45.55, 47.75)
+h2sSixtyEight = interpolation(810.99, 821.95, 46.89504404, 45.55, 47.75)
+h2sMax = interpolation(800.03, 810.99, 44.5641198, 43.35,  45.55)
+
+h2Values = np.array([h2sFortyEight, h2sFiftyEight, h2sSixtyEight, h2sMax])
+print(h2Values)
+
 rpm = np.array([48000, 58000, 68000, 77000])
 # ########## Question 4 ##########
 # h1 = np.array([296.6773, 96.9568, 296.8345, 296.5224])
