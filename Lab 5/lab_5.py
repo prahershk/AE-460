@@ -252,3 +252,6 @@ plt.xlabel('RPM')
 plt.ylabel('SFC')
 plt.title('Specific Fuel Consumption vs RPM')
 plt.savefig("Question_6.png", dpi = 300)
+
+
+########## Question 7 ##########
