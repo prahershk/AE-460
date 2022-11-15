@@ -183,11 +183,11 @@ df3 = pd.DataFrame(np.array([[h1Start, h2Start, h3Start, h4Start, P1StartStatic,
     [h1Max, h2Max, h3Max, h4Max, P1MaxStatic, P2MaxStatic, P3MaxStatic, P4MaxStatic]]))
 df3.columns = ["h1", "h2", "h3", "h4", "P1", "P2", "P3", "P4"]
 df3 = df3.round(decimals = 4)
-# print(df3.to_latex(index=False))
+print(df3.to_latex(index=False))
 
 
-pr1 = np.array([1.3470996, 1.341385601, 1.339375168, 1.333555967])
-pr2 = np.array([2.370339083, 2.661892397, 3.370680765, 4.25473326])
+pr1 = np.array([1.336361875, 1.341385601, 1.339375168, 1.333555967])
+pr2 = np.array([2.351445121, 2.661892397, 3.370680765, 4.25473326])
 pr3 = np.array([42.71110056, 78.89611029, 110.3078512, 146.038569])
 pr4 = np.array([24.85011956, 40.99741848, 45.91377986,49.07503883])
 
