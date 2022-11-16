@@ -15,9 +15,8 @@ import csv
 import matplotlib.colors as mcolors
 
 ###### Comment and uncomment lines based on which question is being run
-
 data = pd.read_csv("2022-10-30 Sample Data.txt", sep='\t', lineterminator='\r')
-
+print(data)
 time = np.array(data["Time (sec)"].tolist())
 t1 = np.array(data["T1 (C)"].tolist())
 t2 = np.array(data["T2 (C)"].tolist())
@@ -30,7 +29,6 @@ p4 = np.array(data["P4 (kPa)"].tolist())
 fuelFLow = np.array(data["Fuel Flow  (L/hr)"].tolist())
 rpm = np.array(data["RPM"].tolist())
 thrust = np.array(data["Thrust (N)"].tolist())
-
 
 
 
@@ -56,17 +54,18 @@ for i in range(0, 1300):
         max.append(i)
 
 
-# fig, ax = plt.subplots()
-# ax.plot(time, rpm, color='black')
-# ax.axvspan(0, 120, facecolor='indianred', alpha=.5)
-# ax.axvspan(fourtyeightIndexes[10], fourtyeightIndexes[-3], facecolor='indianred', alpha=.5)
-# ax.axvspan(fiftyeightIndexes[20], fiftyeightIndexes[-3], facecolor='indianred', alpha=.5)
-# ax.axvspan(sixtyeightIndexes[15], sixtyeightIndexes[-3], facecolor='indianred', alpha=.5)
-# ax.axvspan(max[0], max[-1], facecolor='indianred', alpha=.5)
-# plt.xlabel("Time [s]")
-# plt.ylabel("RPM [rpm]")
-# plt.title("Time [s] vs Jet Engine RPM [rpm]")
-# plt.savefig("Question_2.png", dpi = 300)
+fig, ax = plt.subplots()
+ax.plot(time, rpm, color='black')
+ax.axvspan(0, 120, facecolor='indianred', alpha=.5)
+ax.axvspan(fourtyeightIndexes[10], fourtyeightIndexes[-3], facecolor='indianred', alpha=.5)
+ax.axvspan(fiftyeightIndexes[20], fiftyeightIndexes[-3], facecolor='indianred', alpha=.5)
+ax.axvspan(sixtyeightIndexes[15], sixtyeightIndexes[-3], facecolor='indianred', alpha=.5)
+ax.axvspan(max[0], max[-1], facecolor='indianred', alpha=.5)
+plt.xlabel("Time [s]")
+plt.ylabel("RPM [rpm]")
+times = [0, 500, 1000, 1500]
+plt.xticks(times)
+plt.savefig("Question_2.png", dpi = 400)
 
 
 steadyStateFortyEight = fourtyeightIndexes[10:-3]
@@ -241,17 +240,68 @@ plt.savefig("Question_5.png", dpi = 300)
 
 
 
-########## Question 6 ##########
-plt.clf()
-fuelBurn = (1000 / 3600) * np.array([12.0913, 14.3843, 16.9846, 23.0152])
-thrust = np.array([22.9820, 39.5724, 54.2893, 81.4098])
-SFC = fuelBurn / thrust
-plt.bar(rpm, SFC, width=0.5*(rpm[1]-rpm[0]), ec='k', lw=1)
-plt.xticks(rpm)
-plt.xlabel('RPM')
-plt.ylabel('SFC')
-plt.title('Specific Fuel Consumption vs RPM')
-plt.savefig("Question_6.png", dpi = 300)
+# ########## Question 6 ##########
+# plt.clf()
+# fuelBurn = (1000 / 3600) * np.array([12.0913, 14.3843, 16.9846, 23.0152])
+# thrust = np.array([22.9820, 39.5724, 54.2893, 81.4098])
+# SFC = fuelBurn / thrust
+# plt.bar(rpm, SFC, width=0.5*(rpm[1]-rpm[0]), ec='k', lw=1)
+# plt.xticks(rpm)
+# plt.xlabel('RPM')
+# plt.ylabel('SFC')
+# plt.title('Specific Fuel Consumption vs RPM')
+# plt.savefig("Question_6.png", dpi = 300)
 
 
 ########## Question 7 ##########
+plt.clf()
+# rpm = np.linspace(, 77000, 77000)
+rpm = np.array(data["RPM"].tolist())
+
+# P4 = []
+# for i in range(len(rpm)):
+#     val = 1e-8*rpm[i]**2 - 0.0008*rpm[i] + 15.337
+#     P4.append(val)
+# print(P4[0])
+Mach = []
+print(len(p4))
+for i in range(0, 1217):
+    val = np.sqrt((((p4[i]+97.6)/97.6)**(0.4/1.4) - 1)*2/0.4)
+    Mach.append(val)
+plt.plot(rpm[0:1217], Mach)
+plt.xlabel("RPM")
+plt.ylabel("Mach Number")
+plt.savefig("Question_7.png", dpi = 300)
+
+
+plt.clf()
+exitVelo = []
+
+for i in range(len(Mach)):
+    val = Mach[i]*np.sqrt(287*1.4*(t4[i]+273.15))
+    exitVelo.append(val)
+plt.plot(rpm[0:1217], exitVelo)
+plt.xlabel("RPM")
+plt.ylabel("Exit Velocity [m/s]")
+plt.savefig("Question_8.png", dpi = 300)
+
+density = []
+for i in range(len(p4[0: 1217])):
+    val = (p4[i]*1000)/(287 * (t4[i] + 273.15))
+    density.append(val)
+
+massFlow = []
+for i in range(len(density)):
+    massFlow.append(density[i]*0.0025*exitVelo[i])
+print(len(thrust))
+
+Thrust = []
+plt.clf()
+for i in range(len(massFlow)):
+    Thrust.append(massFlow[i]*exitVelo[i] + 0.0025*(p4[i])*1000)
+plt.plot(rpm[0:1217], Thrust, label="Calculated Thrust")
+plt.plot(rpm[0:1217], thrust[0:1217], label="Measured Thrust")
+plt.legend()
+plt.xlabel("RPM")
+plt.ylabel("Thrust [N]")
+plt.savefig("Question_9.png", dpi = 300)
