@@ -241,16 +241,16 @@ plt.savefig("Question_5.png", dpi = 300)
 
 
 # ########## Question 6 ##########
-# plt.clf()
-# fuelBurn = (1000 / 3600) * np.array([12.0913, 14.3843, 16.9846, 23.0152])
-# thrust = np.array([22.9820, 39.5724, 54.2893, 81.4098])
-# SFC = fuelBurn / thrust
-# plt.bar(rpm, SFC, width=0.5*(rpm[1]-rpm[0]), ec='k', lw=1)
-# plt.xticks(rpm)
-# plt.xlabel('RPM')
-# plt.ylabel('SFC')
-# plt.title('Specific Fuel Consumption vs RPM')
-# plt.savefig("Question_6.png", dpi = 300)
+plt.clf()
+fuelBurn = (1000 / 3600) * np.array([12.0913, 14.3843, 16.9846, 23.0152])
+thrust2 = np.array([22.9820, 39.5724, 54.2893, 81.4098])
+SFC = fuelBurn / thrust2
+plt.bar(rpm, SFC, width=0.5*(rpm[1]-rpm[0]), ec='k', lw=1)
+plt.xticks(rpm)
+plt.xlabel('RPM')
+plt.ylabel('SFC [mg/Ns]')
+plt.title('Specific Fuel Consumption vs RPM')
+plt.savefig("Question_6.png", dpi = 300)
 
 
 ########## Question 7 ##########
@@ -268,7 +268,7 @@ print(len(p4))
 for i in range(0, 1217):
     val = np.sqrt((((p4[i]+97.6)/97.6)**(0.4/1.4) - 1)*2/0.4)
     Mach.append(val)
-plt.plot(rpm[0:1217], Mach)
+plt.scatter(rpm[0:1217], Mach,  s=5)
 plt.xlabel("RPM")
 plt.ylabel("Mach Number")
 plt.savefig("Question_7.png", dpi = 300)
@@ -280,7 +280,7 @@ exitVelo = []
 for i in range(len(Mach)):
     val = Mach[i]*np.sqrt(287*1.4*(t4[i]+273.15))
     exitVelo.append(val)
-plt.plot(rpm[0:1217], exitVelo)
+plt.scatter(rpm[0:1217], exitVelo, s=5)
 plt.xlabel("RPM")
 plt.ylabel("Exit Velocity [m/s]")
 plt.savefig("Question_8.png", dpi = 300)
@@ -299,8 +299,8 @@ Thrust = []
 plt.clf()
 for i in range(len(massFlow)):
     Thrust.append(massFlow[i]*exitVelo[i] + 0.0025*(p4[i])*1000)
-plt.plot(rpm[0:1217], Thrust, label="Calculated Thrust")
-plt.plot(rpm[0:1217], thrust[0:1217], label="Measured Thrust")
+plt.scatter(rpm[0:1217], Thrust, label="Calculated Thrust", s=1)
+plt.scatter(rpm[0:1217], thrust[0:1217], label="Measured Thrust", s=1)
 plt.legend()
 plt.xlabel("RPM")
 plt.ylabel("Thrust [N]")
